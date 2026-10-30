@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Rashifal — English &amp; Telugu · Scientific Astrology</title>
+  <meta name="description" content="Copy-ready daily, monthly and yearly rasi reports in English and Telugu for Instagram, Facebook, WhatsApp and YouTube.">
+  <link rel="stylesheet" href="rasi-phala.css?v=20260821e">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="bar">
+      <a class="logo" href="index.html">
+        <span class="logo-mark">✦</span>
+        <span class="logo-name">Scientific <em>Astrology</em></span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <a class="nav-link" href="index.html">Rashifal</a>
+        <a class="nav-link" href="index.html#kundli">Birth Chart</a>
+        <a class="nav-link is-on" href="social-media.html">Social Media</a>
+      </nav>
+    </div>
+    <div class="subnav">
+      <span>Copy English</span>
+      <span>Copy Telugu</span>
+      <span>Day · Month · Year</span>
+      <span>All 12 rasis</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="hero">
+      <p class="crumb">Home · Social Media · Copy desk</p>
+      <h1>Social Media Rashifal</h1>
+      <p class="lead">
+        Ready posts for Instagram, Facebook, WhatsApp and YouTube.
+        Pick <b>Day</b>, <b>Month</b> or <b>Year</b>, then copy English, Telugu, or both.
+        Content follows live Hyderabad gochara (Lahiri) for each Chandra rasi.
+      </p>
+      <div class="meta-line" id="metaLine">Loading…</div>
+    </div>
+
+    <div class="period-dock" id="periodDock">
+      <p class="period-hint">Choose the report to copy</p>
+      <div class="period-tabs" role="tablist">
+        <button type="button" class="period-btn is-on" data-period="day">Day report</button>
+        <button type="button" class="period-btn" data-period="month">Month report</button>
+        <button type="button" class="period-btn" data-period="year">Year report</button>
+      </div>
+    </div>
+
+    <div class="sm-toolbar">
+      <button type="button" class="btn-gold" id="copyAllEn">Copy all 12 · English</button>
+      <button type="button" class="btn-gold" id="copyAllTe">Copy all 12 · Telugu</button>
+      <button type="button" class="btn-ghost" id="copyAllBoth">Copy all 12 · EN + TE</button>
+    </div>
+
+    <div class="sm-grid" id="smMount"></div>
+  </main>
+
+  <div class="sm-toast" id="smToast" hidden>Copied</div>
+
+  <footer class="site-foot">
+    <p>Social copy desk · General Chandra-rasi gochara · Hyderabad IST</p>
+  </footer>
+
+  <script src="vendor/astronomy.browser.min.js"></script>
+  <script src="transit-engine.js?v=20260821d"></script>
+  <script src="social-media.js?v=20260821f"></script>
+</body>
+</html>

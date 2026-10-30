@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Astrology — Rashifal, Kundli &amp; Gochara</title>
+  <meta name="description" content="Vedic Rashifal for all 12 rasis — day, month and year. Free general predictions, South &amp; North Indian charts, and login to save your janma kundli. Lahiri ayanamsha · Hyderabad default.">
+  <link rel="stylesheet" href="rasi-phala.css?v=20260821e">
+<script src="../js/indian-date-input.js?v=20261007ind1"></script>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="bar">
+      <a class="logo" href="#rashifal" data-view="rashifal">
+        <span class="logo-mark">✦</span>
+        <span class="logo-name">Scientific <em>Astrology</em></span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <button type="button" class="nav-link is-on" data-view="rashifal">Rashifal</button>
+        <button type="button" class="nav-link" data-view="kundli">Birth Chart</button>
+        <a class="nav-link" href="../telugu-panchangam/">Panchangam</a>
+        <a class="nav-link" href="../marriage-analysis/">Marriage</a>
+        <a class="nav-link" href="social-media.html">Social Media</a>
+      </nav>
+      <div class="header-actions">
+        <span class="mode-pill" id="modePill">General</span>
+        <div id="authSlot"></div>
+      </div>
+    </div>
+    <div class="subnav">
+      <span>Day-wise</span>
+      <span>Month-wise</span>
+      <span>Year-wise</span>
+      <span>Rasi &amp; Navamsa charts</span>
+      <span>Guest or Login</span>
+      <span>Lahiri · Hyderabad</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- ═══════════════ RASHIFAL ═══════════════ -->
+    <section id="viewRashifal" class="view is-on">
+      <div class="hero">
+        <p class="crumb">Home · Rashifal · Chandra Rasi Phala</p>
+        <h1>Choose your Rasi</h1>
+        <p class="lead">
+          General Vedic gochara results for all twelve rasis. Select your <b>Chandra rasi</b> (Moon sign),
+          then open <b>Day</b>, <b>Month</b> or <b>Year</b> for an elaborate reading with charts.
+          No login needed — continue as a guest, or sign in to save your janma kundli.
+        </p>
+        <div class="meta-line" id="metaLine">Loading Hyderabad transits…</div>
+      </div>
+
+      <div class="rasi-grid" id="rasiGrid" aria-label="Twelve rasis"></div>
+
+      <div class="period-dock is-hidden" id="periodDock">
+        <p class="period-hint" id="periodHint">Select a period</p>
+        <div class="period-tabs" role="tablist">
+          <button type="button" class="period-btn is-on" data-period="day">Day wise</button>
+          <button type="button" class="period-btn" data-period="month">Month wise</button>
+          <button type="button" class="period-btn" data-period="year">Year wise</button>
+        </div>
+      </div>
+
+      <div id="phalaMount"></div>
+    </section>
+
+    <!-- ═══════════════ BIRTH CHART ═══════════════ -->
+    <section id="viewKundli" class="view" hidden>
+      <div class="hero">
+        <p class="crumb">Home · Birth Chart · Janma Kundli</p>
+        <h1>Generate Natal Chart</h1>
+        <p class="lead">
+          Enter name, gender, date, time and place of birth to draw a Vedic rasi chart
+          (South Indian and North Indian) with Navamsa (D-9), graha table and gochara overlay.
+          Works for guests. Login to save the kundli on this device.
+        </p>
+      </div>
+
+      <form class="kundli-form card parchment" id="kundliForm" autocomplete="off">
+        <h2>Enter Birth Details</h2>
+        <div class="form-grid">
+          <label>Name
+            <input id="kName" type="text" placeholder="Enter your name" required>
+          </label>
+          <fieldset class="gender">
+            <legend>Gender</legend>
+            <label><input type="radio" name="kGender" value="Male" checked> Male</label>
+            <label><input type="radio" name="kGender" value="Female"> Female</label>
+          </fieldset>
+          <label>Birth date
+            <input id="kDate" type="date" required>
+          </label>
+          <label>Birth time
+            <input id="kTime" type="time" step="60" required>
+          </label>
+          <label>Place of birth
+            <input id="kPlace" type="text" list="cityList" placeholder="Hyderabad, India" required>
+            <datalist id="cityList"></datalist>
+          </label>
+          <p class="form-note">Lahiri (Chitrapaksha) ayanamsha. Unknown time? Use sunrise 06:00 as a working lagna — Chandra rasi will still be reliable.</p>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-gold">Generate Birth Chart</button>
+          <button type="button" class="btn-ghost" id="btnSaveKundli" hidden>Save to my account</button>
+        </div>
+      </form>
+      <div id="kundliMount"></div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <p><b>Scientific Astrology</b> · Independent Vedic tools · Hyderabad 17.3850°N, 78.4867°E · IST (UTC+5:30)</p>
+    <p>General Rashifal is gochara from Chandra rasi — not a substitute for a personal janma-kundli reading.</p>
+  </footer>
+
+  <!-- Login / Register -->
+  <div class="modal" id="authModal" hidden>
+    <div class="modal-card parchment">
+      <button type="button" class="modal-x" id="authClose" aria-label="Close">×</button>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab is-on" data-auth="login">Login</button>
+        <button type="button" class="auth-tab" data-auth="register">Create account</button>
+      </div>
+      <form id="loginForm" class="auth-form">
+        <label>Email <input type="email" id="loginEmail" required placeholder="you@example.com"></label>
+        <label>Password <input type="password" id="loginPass" required minlength="4"></label>
+        <button type="submit" class="btn-gold">Login</button>
+        <p class="form-note">Local login on this browser only — your kundli is stored on this device, not on a server.</p>
+      </form>
+      <form id="registerForm" class="auth-form" hidden>
+        <label>Name <input type="text" id="regName" required placeholder="Your name"></label>
+        <label>Email <input type="email" id="regEmail" required></label>
+        <label>Password <input type="password" id="regPass" required minlength="4"></label>
+        <button type="submit" class="btn-gold">Create account</button>
+        <p class="form-note">After registering you can save a janma kundli and auto-open Rashifal from your Moon sign.</p>
+      </form>
+      <p class="auth-err" id="authErr" hidden></p>
+    </div>
+  </div>
+
+  <script src="vendor/astronomy.browser.min.js"></script>
+  <script src="transit-engine.js?v=20260821d"></script>
+  <script src="charts.js?v=20260821f"></script>
+  <script src="auth.js?v=20260821c"></script>
+  <script src="rasi-phala.js?v=20260821c"></script>
+</body>
+</html>

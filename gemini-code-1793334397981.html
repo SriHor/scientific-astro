@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Rashifal — English &amp; Telugu · Scientific Astrology</title>
+  <meta name="description" content="Copy-ready daily, monthly and yearly rasi reports in English and Telugu for Instagram, Facebook, WhatsApp and YouTube, with instant image generation.">
+  <link rel="stylesheet" href="rasi-phala.css?v=20260821e">
+  <!-- Include html2canvas for card image export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    /* Additional inline style for the image download button */
+    .btn-download-img {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+      margin-top: 4px;
+    }
+    .btn-download-img:hover {
+      opacity: 0.9;
+    }
+    .card-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="bar">
+      <a class="logo" href="index.html">
+        <span class="logo-mark">✦</span>
+        <span class="logo-name">Scientific <em>Astrology</em></span>
+      </a>
+      <nav class="main-nav" aria-label="Primary">
+        <a class="nav-link" href="index.html">Rashifal</a>
+        <a class="nav-link" href="index.html#kundli">Birth Chart</a>
+        <a class="nav-link is-on" href="social-media.html">Social Media</a>
+      </nav>
+    </div>
+    <div class="subnav">
+      <span>Copy English</span>
+      <span>Copy Telugu</span>
+      <span>Download Image</span>
+      <span>Day · Month · Year</span>
+      <span>All 12 rasis</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="hero">
+      <p class="crumb">Home · Social Media · Copy desk</p>
+      <h1>Social Media Rashifal</h1>
+      <p class="lead">
+        Ready posts and image cards for Instagram, Facebook, WhatsApp and YouTube.
+        Pick <b>Day</b>, <b>Month</b> or <b>Year</b>, then copy text or download card images.
+        Content follows live Hyderabad gochara (Lahiri) for each Chandra rasi.
+      </p>
+      <div class="meta-line" id="metaLine">Loading…</div>
+    </div>
+
+    <div class="period-dock" id="periodDock">
+      <p class="period-hint">Choose the report to copy</p>
+      <div class="period-tabs" role="tablist">
+        <button type="button" class="period-btn is-on" data-period="day">Day report</button>
+        <button type="button" class="period-btn" data-period="month">Month report</button>
+        <button type="button" class="period-btn" data-period="year">Year report</button>
+      </div>
+    </div>
+
+    <div class="sm-toolbar">
+      <button type="button" class="btn-gold" id="copyAllEn">Copy all 12 · English</button>
+      <button type="button" class="btn-gold" id="copyAllTe">Copy all 12 · Telugu</button>
+      <button type="button" class="btn-ghost" id="copyAllBoth">Copy all 12 · EN + TE</button>
+    </div>
+
+    <div class="sm-grid" id="smMount"></div>
+  </main>
+
+  <div class="sm-toast" id="smToast" hidden>Copied</div>
+
+  <footer class="site-foot">
+    <p>Social copy desk · General Chandra-rasi gochara · Hyderabad IST</p>
+  </footer>
+
+  <script src="vendor/astronomy.browser.min.js"></script>
+  <script src="transit-engine.js?v=20260821d"></script>
+  
+  <!-- Enhanced script to inject Download Image button alongside existing copy handlers -->
+  <script>
+    // Hook into card rendering after social-media.js runs or override the card template creation
+    window.addEventListener('DOMContentLoaded', () => {
+      // Small observer or interval to ensure buttons are added when cards mount/update
+      const observer = new MutationObserver(() => {
+        const cards = document.querySelectorAll('.sm-card, .rasi-card, [data-rasi-card], .card');
+        cards.forEach(card => {
+          if (card && !card.querySelector('.btn-download-img')) {
+            const toolbar = card.querySelector('.card-toolbar') || card.querySelector('.actions') || card;
+            const dlBtn = document.createElement('button');
+            dlBtn.type = 'button';
+            dlBtn.className = 'btn-download-img';
+            dlBtn.innerHTML = '📥 Download Image';
+            dlBtn.onclick = () => {
+              html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#0f172a' }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = (card.dataset.rasi || 'astrology-card') + '-rashifal.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+              }).catch(err => {
+                console.error('Image generation failed:', err);
+                alert('Could not download image. Please try again.');
+              });
+            };
+            toolbar.appendChild(dlBtn);
+          }
+        });
+      });
+
+      const mount = document.getElementById('smMount');
+      if (mount) {
+        observer.observe(mount, { childList: true, subtree: true });
+      }
+    });
+  </script>
+  <script src="social-media.js?v=20260821f"></script>
+</body>
+</html>
