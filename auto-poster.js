@@ -1,7 +1,9 @@
 const { chromium } = require('playwright');
 const axios = require('axios');
+const FormData = require('form-data');
 
-const PAGE_ID = process.env.FB_PAGE_ID || 'YOUR_PAGE_ID';
+// Facebook Configuration from GitHub Secrets & Environment Variables
+const PAGE_ID = process.env.FB_PAGE_ID || 'YOUR_FACEBOOK_PAGE_ID';
 const ACCESS_TOKEN = process.env.FB_PAGE_TOKEN;
 
 const rasiList = [
@@ -48,13 +50,41 @@ async function generateAndPost() {
       </html>
     `);
 
+    // Render high-res screenshot as an image buffer
     const imageBuffer = await page.screenshot({ type: 'png' });
     await page.close();
     console.log(`Generated card image for ${rasi.name}`);
+
+    // Publish to Facebook
+    await postToFacebook(rasi, imageBuffer);
   }
 
   await browser.close();
-  console.log("All 12 Rasi cards generated successfully!");
+  console.log("All 12 Rasi cards generated and posted to Facebook successfully!");
+}
+
+async function postToFacebook(rasi, imageBuffer) {
+  if (!ACCESS_TOKEN || ACCESS_TOKEN === 'YOUR_PAGE_ACCESS_TOKEN') {
+    console.log(`[Dry Run] Skipping FB post for ${rasi.name} (Access Token not set).`);
+    return;
+  }
+
+  try {
+    const caption = `🌟 ${rasi.name} | ${rasi.te} · Daily Horoscope\n\n${rasi.enText}\n\n${rasi.teText}\n\n🌐 Visit: https://scientificastro.in\n\n#ScientificAstro #Rashifal #TeluguHoroscope #${rasi.name}`;
+
+    const form = new FormData();
+    form.append('access_token', ACCESS_TOKEN);
+    form.append('caption', caption);
+    form.append('source', imageBuffer, { filename: `${rasi.name.toLowerCase()}-horoscope.png`, contentType: 'image/png' });
+
+    const response = await axios.post(`https://graph.facebook.com/v18.0/${PAGE_ID}/photos`, form, {
+      headers: { ...form.getHeaders() }
+    });
+
+    console.log(`Successfully posted ${rasi.name} to Facebook! Post ID: ${response.data.id}`);
+  } catch (error) {
+    console.error(`Failed to post ${rasi.name} to Facebook:`, error.response?.data || error.message);
+  }
 }
 
 generateAndPost().catch(err => {
