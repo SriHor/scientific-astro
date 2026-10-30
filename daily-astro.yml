@@ -1,0 +1,26 @@
+name: Daily Scientific Astro Automation
+
+on:
+  schedule:
+    - cron: '30 0 * * *' # Runs daily at 6:00 AM IST (00:30 UTC)
+  workflow_dispatch: # Allows you to run it manually anytime from GitHub
+
+jobs:
+  run-poster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install playwright axios
+
+      - name: Run automation script
+        env:
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+        node: node auto-poster.js
