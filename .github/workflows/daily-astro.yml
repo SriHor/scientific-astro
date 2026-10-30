@@ -22,10 +22,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install playwright axios
+          npm install playwright axios form-data
           npx playwright install --with-deps chromium
 
       - name: Run automation script
         env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
         run: node auto-poster.js
