@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: List files to verify structure
+      - name: Verify repository contents
         run: ls -la
 
       - name: Install dependencies
